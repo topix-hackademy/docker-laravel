@@ -14,7 +14,6 @@ APP_PORT=8002
 MYSQL_PORT=9000
 
 APP_NAME=NAME_FOR_YOUR_APP
-BUILD=NAME_FOR_YOUR_BUILD
 REPOSITORY=https://username@bitbucket.org/something..
 
 HOST_PROJECT_PATH=$(pwd)/$APP_NAME
@@ -27,13 +26,9 @@ else
     echo -e ${GREEN}Repository $APP_NAME already cloned${NC}
 fi
 
-# startup container
-echo -e ${GREEN}Docker build${NC}
-docker build -t="$BUILD" .
-
 # run container
 echo -e ${GREEN}Running container${NC}
-docker run -v $HOST_PROJECT_PATH:/usr/share/nginx/www -p $SSH_PORT:22 -p $APP_PORT:80 -p $MYSQL_PORT:3306 --name $APP_NAME -h $APP_NAME -d $BUILD
+docker run -v $HOST_PROJECT_PATH:/usr/share/nginx/www -p $SSH_PORT:22 -p $APP_PORT:80 -p $MYSQL_PORT:3306 --name $APP_NAME -h $APP_NAME -d alexcomu/docker-laravel
 sleep 30
 
 # remote host
